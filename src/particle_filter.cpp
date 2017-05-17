@@ -13,6 +13,7 @@
 
 using namespace std;
 
+// Code employs a hack that uses the id property to assign measurements to landmarks
 #define ID_NOT_ASSIGNED -1
 
 void ParticleFilter::init(double x, double y, double theta, double std[]) {
@@ -25,11 +26,11 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	normal_distribution<double> dist_theta(theta, std[2]);
 
 	// Initialise the weights vector to 1
-	weights.resize(num_particles, 1.0);
+	weights.resize((unsigned long) num_particles, 1.0);
 
 	// Initialise the particles vector
 	default_random_engine gen;
-	particles.resize(num_particles);
+	particles.resize((unsigned long) num_particles);
 
 	for (int i=0;i<particles.size();i++) {
 		struct Particle p;
@@ -188,11 +189,11 @@ void ParticleFilter::resample() {
 	int ix = uni_disc(genix);
 
 	vector<Particle> resampled_particles;
-	resampled_particles.reserve(num_particles);
+	resampled_particles.reserve((unsigned long) num_particles);
 
 	// Find maximum weight and create particle weights vectors
 	weights.clear();
-	weights.reserve(num_particles);
+	weights.reserve((unsigned long) num_particles);
   for(int i=0;i<particles.size();i++) {
     Particle *p = &particles[i];
 		if (p->weight > max_weight)
